@@ -1,0 +1,9 @@
+@import url("Common.css");
+
+.bodyboot{background-color: #83cda6; color: #000000;/*#003519*/}
+.h1boot{text-align: center; color: #205539;}
+.hrboot{height: 1px; border-width: 0; background-color: #205539;}
+
+.navbar{background-color:#6ab790;} /* background-color:#4a9770;#6ab790;color:#aaf7d0; */
+.nav-buttons{background-color:#6ab790;}
+.navlink{color:#000000;}

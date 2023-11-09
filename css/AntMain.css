@@ -1,0 +1,26 @@
+/* 16.06.2023 */
+@import url("Common.css");
+
+/* AntMain specific css */
+.bodyantmain{background-color: #68b7ab; color: #000000;/*#20423d;*/}
+.h1antmain-greet{font-family: "Courier New"; font-size: 28pt; color: #40867b; text-align: center;}
+.h1antmain{text-align: center; color: #20665b;}
+.hrantmain{height: 1px; border-width: 0; background-color: #40867b;}
+
+#got{color:#ee8888;}
+#abb{color:#ba2298;}
+#dwn{color:#22ba22;}
+#off{color:#6330c4;}
+#top{background-color:#40867b;}
+.div-cover{
+	background-color: #4ea295; color: #000000;
+	font-family: 'Courier New'; font-size: 28pt; font-weight: bold;
+	text-align: center;
+	padding: 0;
+}
+.nav-buttons{background-color:#4ea295;}
+.navbar{
+	background-color:	#4ea295; /*#3e9285;*/
+	color:				#8ee2d5;
+}
+.navlink{color: #8ee2d5;}

@@ -1,0 +1,38 @@
+/* 16.06.2023 */
+@import url("Common.css");
+
+/* pink colored page (Introduction range) styling */
+.bodyintro{background-color: #ce9cbd; color: #000000;}
+.accent{border-color: rgb(64, 32, 200);}
+.h1intro{text-align: center; color: #70365b;}
+.hrintro{height: 1px; border-width: 0; background-color: #a0668b;}
+
+.nav-buttons{background-color:#b282a4;color:0} /* background-color:#b282a4;#926284; */
+.navbar{background-color:#b282a4;color:0;} /* background-color:#b282a4;#926284; */
+.navlink{color:black;} /* #fecced; */
+
+/* now, it's used in intoduction.htm and targets.htm */
+.redlink{color: red;}
+.warnbanner{
+	background-color: #000000;
+	color: #ce9cbd; /* #fe6f6f; */
+	font-family: "Times New Roman", Tahoma, Arial, Verdana;
+	border: none;
+	padding: 8px;
+}
+.lostmachine{
+	color:				#ef2010;
+	background-color:	#000000;
+	/*font-family:		"Courier New", Monospace;
+	font-weight:		bold;
+	font-size:			14pt;*/
+}
+
+.expandbtn{
+	border:			none;
+	width:			100%;
+	text-align:		center;
+	font-size:		44px;
+	padding:		16px;
+	display:		inline-block;
+}

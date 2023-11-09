@@ -1,0 +1,82 @@
+/* common styling */
+body{
+	font-family:		Georgia,Arial,Verdana,"Trebuchet MS", "Segoe UI", Georgia, Sylfaen, "Times New Roman", Serif;
+	font-size:			14pt;
+}
+
+.padded-page-text{padding: 32px;}
+.monospace-font-bold-list{font-family: "Courier New"; font-size: 14pt; font-weight: bold;}
+.undecorated{text-decoration: none;}
+.centered-img{display: block; margin-left: auto; margin-right: auto;}
+.wfit{max-width:100%;}
+
+tt{font-family: "Lucida Console", "Cascadia Code", "Courier New", Monospace; font-size: 14pt;}
+
+.console{
+	font-family: Consolas, Monospace;
+	font-size: 12pt;
+	font-weight: normal;
+	background-color: black;
+	color: rgb(200, 200, 0);
+	padding: 8px 4px 1px;
+	/*border: ridge rgb(128, 64, 224) 4px;*/
+	border-left: solid 4px;
+}
+
+.nav-buttons{
+	color:		#000000;
+	border:		none;
+	text-align:	center;
+	font-size:	24px;
+	/*padding:	4px;*/
+	margin:		1px;
+	/*display:	block;*/
+	/*border: solid black 1px;*/
+}
+.navbar{font-family:Arial;padding:4px;border:none;}
+.navlink{text-decoration:none;}
+
+/* button grouping */
+.div-navroot-fb{
+	display:		flex;
+	flex-direction:	row;
+	flex-wrap:		wrap;
+	align-content:	center;
+
+	align-items:		center;	/* default "stretch" stretches navpanel image */
+	justify-content:	space-between;
+}
+
+.div-navbtn-fb{
+	display:		flex;
+	flex-direction:	column;
+	flex-wrap:		nowrap;
+	align-items:	stretch;
+	justify-content: space-between;
+}
+
+/* for navigation button flex box with the right image width 320px */
+/* 1300(view transition width) - 320(navheaderimage width) - 40 (paddings/margins) */
+.div-navbtn-fb{width:940px;}
+@media only screen and (max-width: 1300px){ /* Y = navbtn.w + img.w + 48; ZZh8zW0j_400x400.jpg width is 400px */
+	.div-navroot-fb{						/* Y = 932 + 320 + 48; */
+		justify-content:	center;
+	}
+	.div-navbtn-fb{
+		width:100%;
+		justify-content:	center;
+	}
+	.nav-buttons{margin-bottom: 4px;height:64px;}
+
+}
+
+.uppchar{text-align:center; font-size: 48pt;}
+
+.btn-allowed{
+	cursor: pointer;
+}
+
+.btn-disabled{
+	opacity: 0.6;
+	cursor: not-allowed;
+}
