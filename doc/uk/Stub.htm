@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<!-- 6:48 16.06.2023 -->
+
+<html>
+	<head>
+		<title>Шаблон</title>
+		<base href="../.." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Операційна Система, osdev,
+						Windows, Windows NT, UEFI, системне програмування,
+						x86, ARM, MIPS, RISCV, ПК, одноплатний компутер"
+		/>
+		<meta	name="description"
+				content="ANT, Операційна Система, натхненна лінійкою Microsoft Windows NT"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/IntroductionCommon.css" />
+		<style type="text/css">
+		</style>
+		<script>
+var ImgPart = '<img alt="Avie kissy kissy" class="centered-img wfit" src="res/AvOgImg.jpg" />';
+var ImgState = 0;
+
+function OnClick(){
+	if(ImgState == 0){
+		document.getElementById("avv").innerHTML = ImgPart;
+		ImgState = 1;
+	}else{
+		document.getElementById("avv").innerHTML = "";
+		ImgState = 0;
+	}
+}
+		</script>
+	</head>
+	<body class="bodyintro">
+		<span class="navbar"><a href="doc/Stub.htm" class="navlink">English</a></span>
+		<h1 class="h1intro">Шаблон</h1>
+		<small>Дата: 04.10.2023</small>
+		<hr class="hrintro" />
+		<div class="navbar">
+			<a href="doc/uk/AntMain.htm" class="navlink">головна</a> \
+			<a href="doc/uk/Book.htm" class="navlink">книжка</a> \
+		</div>
+		<hr class="hrintro" />
+
+<div class="padded-page-text">
+<p style="font-size: 22px;text-align:center;">
+Ця сторінка є заглушкою, на яку приводять посилання на ще ненаписані сторінки.
+</p>
+<img
+	alt="Internet Explorer Troll Face, our 1st Boot Logo"
+	src="res/IeTrollFace320.jpg"
+	class="centered-img"
+/>
+<button class="expandbtn navbar" onclick="OnClick()">Тицьни мене</button>
+<div id="avv"></div>
+</div>
+
+ </body>
+</html>

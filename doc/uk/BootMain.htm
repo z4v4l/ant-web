@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Запуск і ініціалізація ANT</title>
+		<base href="../.." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Операційна Система, osdev,
+						Windows, Windows NT, UEFI, системне програмування,
+						x86, ARM, MIPS, RISCV, ПК, одноплатний компутер"
+		/>
+		<meta	name="description"
+				content="ANT, Операційна Система, натхненна лінійкою Microsoft Windows NT"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/BootCommon.css" />
+		<style type="text/css">
+/* AvBootPink.jpg is 400px in height. btnh l.t. imgh / nobuttonsingroup */
+@media only screen and (min-width: 1301px){
+	.div-navbtn-fb{height: 400px;}
+	.nav-buttons{height: 96px;}
+}
+		</style>
+
+<script>
+function OnClick(id){
+	if(id == "history"){
+		window.location.href = "doc/uk/BootVideos.htm";
+	}else if(id == "documentation"){
+		window.location.href = "doc/uk/BootDocumentation.htm";
+    }
+}
+</script>
+
+	</head>
+	<body class="bodyboot">
+		<span class="navbar"><a href="doc/BootMain.htm" class="navlink">English</a></span>
+		<h1 class="h1boot">&#x1F462; Запуск та ініціалізація &#x1F462;</h1>
+		<small>Дата: 06.10.2023 </small>
+		<hr class="hrboot" />
+		<div class="navbar">
+			<a href="doc/uk/AntMain.htm" class="navlink">головна</a> \
+			<a href="doc/uk/Book.htm" class="navlink">книжка</a> \
+		</div>
+		<hr class="hrboot" />
+
+<div class="div-navroot-fb">
+	<div class="div-navbtn-fb">
+		<button class="nav-buttons btn-allowed boot " onclick='window.location.href = "doc/uk/BootVideos.htm"'>
+			Огляд вантажника</button>
+		<button class="nav-buttons btn-allowed boot" onclick='window.location.href = "doc/uk/Stub.htm"'>
+			Деталі запуску</button>
+		<button class="nav-buttons btn-allowed init" onclick='window.location.href = "doc/uk/Stub.htm"'>
+			Огляд ініціалізації</button>
+		<button class="nav-buttons btn-allowed init" onclick='window.location.href = "doc/uk/Stub.htm"'>
+			Деталі ініціалізації</button>
+	</div>
+	<img alt="Avril" src="res/AvBootPink.jpg" />
+</div>
+<hr class="hrboot" />
+
+<div class="padded-page-text">
+<h3>За цю главу</h3>
+<p>
+Цей розділ присвячений початку системи. В ньому ми трохи згадуємо як починалась робота над Ант,
+і також тут описується старт ОС.
+Він розділений на 2 фази: <i>запуск</i> та <i>ініціалізація</i>.
+Запуск &mdash; це фаза, яка починається в середовищі платформного коду, в якому делегат
+від ОС &mdash; <i>вантажник</i> або <i>запускач</i>
+виконується як клієнт і в якому він робе свою роботу <i>запуску системи</i>, використовуючи
+сервіси, надані середовищем. Він зчитує основні компоненти ядра ОС в оперативну пам'ять
+&mdash; <i>вантаження</i>, налаштовує їх, підготовує середовище ядра і, нарешті, передає йому керування.
+Це є <i>запусканням</i> ОС, а не лише вантаженням файлів її ядра в пам'ять. Саме того, це
+називається запуск, а не завантаження.
+Друга фаза, ініціалізація, відбувається уже в середовищі ядра. На цій фазі ядро розгортає свої
+оперативні компоненти, ініціалізує себе тобто. Також воно догружає решту
+компонентів з постійного сховища (напр. непускові драйвери), ініціалізує їх,
+і нарешті запускає свої підсистеми режиму користувача (напр. сесійний менеджер).
+Після цього ОС готова до обслуговування користувачів.
+<p>
+<p>
+В главі "огляд вантажника" описується коротка історія його створення, власне перші кроки проєкту,
+принаймні в плані програмування. Також розказується трохи за роботу процесу запуску Ант. Все
+це іллюструється скриншотами, фото і відеодемонстраціями.
+В "деталях запуску", вже йтиметься за цей процес більше. В "огляді ініціалізації" так само,
+описується коротка історія писання цієї частини системи й побіжний опис процесу, а в "деталях
+ініціалізації" вже буде більше технічної інформації.
+</p>
+
+</div> <!-- padded-page-text -->
+
+
+
+	</body>
+</html>
