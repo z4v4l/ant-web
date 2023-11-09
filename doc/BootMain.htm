@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Booting and Initialing ANT</title>
+		<base href=".." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Operating System, osdev,
+						Windows, Windows NT, UEFI, system programming, x86, ARM, MIPS, RISCV, PC, SBC"
+		/>
+		<meta	name="description"
+				content="This site is about ANT, a hobby, Microsoft Windows NT inspired Operating System"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/BootCommon.css" />
+		<style type="text/css">
+/* AvBootLuvSux.jpg is 320px in height. btnh l.t. imgh / nobuttonsingroup */
+@media only screen and (min-width: 1301px){
+	.div-navbtn-fb{height: 320px;}
+	.nav-buttons{height: 76px;}
+}
+		</style>
+
+<script>
+function OnClick(id){
+	if(id == "history"){
+		window.location.href = "doc/BootVideos.htm";
+	}else if(id == "documentation"){
+		window.location.href = "doc/BootDocumentation.htm";
+    }
+}
+</script>
+
+	</head>
+	<body class="bodyboot">
+		<span class="navbar"><a href="doc/uk/BootMain.htm" class="navlink">Українською</a></span>
+		<h1 class="h1boot">&#x1F462; Boot and initialization&#x1F462;</h1>
+		<small>Date: 07.03.2021 </small>
+		<hr class="hrboot" />
+		<div class="navbar">
+			<a href="doc/AntMain.htm" class="navlink">main</a> \
+			<a href="doc/Book.htm" class="navlink">book</a> \
+		</div>
+		<hr class="hrboot" />
+
+<div class="div-navroot-fb">
+	<div class="div-navbtn-fb">
+		<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/BootVideos.htm"'>
+			Loader overview</button>
+		<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Stub.htm"'>
+			Booting details</button>
+		<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Stub.htm"'>
+			Initialization overview</button>
+		<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Stub.htm"'>
+			Initialization details</button>
+	</div>
+	<img alt="Avril Luv Sux photo with baloons" src="res/AvBootLuvSux.jpg" />
+</div>
+<hr class="hrboot" />
+
+<div class="padded-page-text">
+<h4>About this section</h4>
+<p>
+The section is dedicated to the system beginning. In it, we mention a little how
+the work on it started and also, system startup is described here.
+The latter is split in 2 phases <i>booting</i> and <i>initialization</i>.
+Booting is a phase, that starts in the firmware environment and where
+an OS delegate, the loader, is running as a client and where it is doing its
+job of system booting, using services, provided by the firmware. It reads
+main kernel components into RAM &mdash; <i>loading</i>, sets them up,
+prepares the kernel environment and, finally, transfers control over to it.
+This is OS <i>booting</i>, not just loading kernel files into RAM.
+
+The second phase, initialization, happens in the kernel environment.
+In it, kernel deploys its operating components, initializes itself, that is.
+Also, it loads the rest of components from persistent storage (e.g. non-boot drivers),
+initializes them and finally starts its user mode components (e.g. session manager).
+After this, the OS is ready for serving users.
+<p>
+<p>
+In the "loader overview" chapter, a brief history of the loader is described, the first steps
+of the project basically, at least programming wise. Also, a short overview of the Ant booting
+is given. This is illustrated with screenshots, photos and video demonstrations.
+In the "booting details", there will be more details about the process.
+In the "initialization overview", also, the history and the process of it are described
+shortly, whereas in the "initialization details" a more technical and detalized talk goes.
+</p>
+
+</div> <!-- padded-page-text -->
+
+	</body>
+</html>

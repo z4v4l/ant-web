@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<!-- 4:43 07.03.2021 -->
+
+<html id="up">
+	<head>
+		<title>Loader overview</title>
+		<base href=".." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Operating System, osdev,
+						Windows, Windows NT, UEFI, system programming, x86, ARM, MIPS, RISCV, PC, SBC"
+		/>
+		<meta	name="description"
+				content="ANT, Microsoft Windows NT inspired Operating System"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System" />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg">
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/BootCommon.css" />
+		<style type="text/css">
+/* styling, specific to this page */
+.expandbtn{
+	background-color:	#6ab790;
+	color:			#000000;
+	border:			none;
+	width:			100%;
+	text-align:		center;
+	font-size:		14pt;
+	padding:		16px;
+	display:		inline-block;
+}
+		</style>
+
+ <script>
+var ImgPart = ["<img alt='loader screenshot' class='centered-img wfit' src='res/", "' />"];
+var ImgNames = ["x64-qemu-BootScreenPretty.png", "IMG_20230702_070011.jpg", "efifySdReadOrganized.PNG"];
+var ImgState = [0, 0, 0];	// both must contain the same amount of elements
+
+var ytifpart =	[
+	'<iframe class="centered-img" width="640" height="480" src="https://www.youtube.com/embed/',
+	'" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />'
+		];
+
+
+/* KBrfWJbiT3w - is the video ID for the viola video, with the screwed up BI :D */
+var VideoIds	= ["pqyGph7wr_k", "Ph-yxR00x7g", "cmDYNFCEvvI"];
+var State	= [0, 0, 0];	// both must contain the same amount of elements
+
+function OnClick(index, sel){
+	var str, state, part, names;
+
+    if(sel == 0){
+      str = "imgsplr";
+      state = ImgState;
+      part = ImgPart;
+      names = ImgNames;
+    }else{
+      str = "splr";
+      state = State;
+      part = ytifpart;
+      names = VideoIds;
+    }
+    str = str + index;
+
+	if(state[index] == 0){
+		document.getElementById(str).innerHTML = part[0] + names[index] + part[1];
+		state[index] = 1;
+	}else{
+		document.getElementById(str).innerHTML = "";
+		state[index] = 0;
+	}
+}
+ </script>
+
+	</head>
+	<body class="bodyboot">
+		<span class="navbar"><a href="doc/uk/BootVideos.htm" class="navlink">Українською</a></span>
+		<h1 class="h1boot">Loader overwiew</h1>
+		<small>Date: 07.03.2021</small>
+		<hr class="hrboot" />
+		<div class="navbar">
+			<a href="doc/AntMain.htm" class="navlink">main</a> \
+			<a href="doc/Book.htm" class="navlink">book</a> \
+			<a href="doc/BootMain.htm" class="navlink">boot and initialization</a> \
+		</div>
+		<hr class="hrboot" />
+
+<div class="padded-page-text">
+<h3>Very beginnings</h3>
+<p>
+First, we, as a preparational but also parallel for Ant project,
+had been trying to create our own Uefi implementation &mdash;
+<a href="https://efify.sourceforge.io" class="undecorated"><b>efify</b></a>.
+Timestamps in the C files of its core show April 2016.
+That was essentially our first code written. It was
+Uefi Boot Services. Looking at these files in the working
+copy of the efify Svn repository, I see something about 2000
+lines of code, not counting Uefi headers. In 2015,
+apparently, I had been reading specs and thinking
+on the consumed information. Ah, and yet, been writing
+<a href="https://iridium-193.blogspot.com/2015/03/" class="undecorated">this blog</a> (in Ukrainian).
+From the tablet! By the way, it can be seen from there, that the name "Ant",
+had already been picked as of March 2015.
+Overall, efify needs its own book, some day, maybe will write it,
+now mentioning this period because it belongs to Ant too.
+</p>
+<p>
+Idea of creating efify was based on the thought, that firmware
+is a mini OS, writing it would be hard, yet a bit easier, than an OS.
+This subproject was considered very promising and was thus pretty napoleonic.
+Apart from benefits of its own goals, working on it would give
+good knowledge of this environment internals, what would help in the
+loader creation. Not to mention the system programming experience gotten
+in general. Of course, I realized, that such a project, when making it alone,
+is possible to get accomplished for only a couple of boards, which would need to have decent documentation.
+Such software is called "platform" because it's very hardware specific.
+I had chosen Beagle Bone Black and Mips Creator.
+Cubieboard 2 also was considered, but it wasn't clear, if its documentation
+would be enough. Muran's am3358 had even if clumsy, yet quite detalized
+documentation from Texas Instruments.
+
+And I wanted CI20 as a target badly and anyway, because a mips machine was especially
+exciting, Uefi on mips didn't exist and idea of creating such was very motivating.
+And its documentation and available source code from Ingenic, also gave the hope for 
+possibility of actualizing the idea. The main role in that, exactly mips became that
+very start has played
+<a href="https://code.lardcave.net/2015/03/31/1/" class="undecorated">this awesome blog</a>,
+which I, most probably, found
+<a href="https://elinux.org/CI20_Projects" class="undecorated">on this site</a>. At least
+on that page there still (7 October 2023) is the link to the blog and I definitely
+had been visiting this site many times back then.
+Exactly reading the blog gave me clarity on how that bare hardware should be programmed,
+gave me confidence and determination. What the TI manual couldn't do to such a novice like me.
+
+Imagine, this was about even not an OS less environment, it was about absence of
+firmware as well, thus even RAM hasn't been initialized, only the ROM code
+has run as the very first before your code, with the bare minimum of initializing the
+machine.
+</p>
+<p>
+Successful test of our first code happened in 2017. That was also loader, but of the firmware this time.
+See, here as well, the analogy between firmware and OS can be noticed &mdash; they both start with
+their loader. And in both cases it functions the same way, deploying the rest of the system structure
+and further transfering control over to it, booting it thus.
+Back then, following somewhat the Platform Initialization specification, which is
+kind of a specification on implementation of another specification (Uefi), we called
+this phase SEC phase. This is firmware starting code and, in essence, it starts the firmware core,
+after it has initialized RAM and loaded the core over there. The screenshot of successful start
+of our mips SEC phase is dated by 17 March 2017. Its code was written the same year
+(the creation timestamp of the jz4780's SEC.S file is 28 February 2017).
+
+Timestamps in the arm targets peers show summer 2016, but, those, like the aforementioned core files
+were written "into the drawer", were assembled at maximum, but not tested. And only for am3358,
+SEC.S file was something more, than a stub. Because it's quite a burden to begin writing firmware,
+without having any previous experience of hardware programming at such a low level.
+Even figuring how to connect with the ROM code for it to want loading and executing your code was unclear.
+With Argon (Cubieboard 2), it was definitely not easy, because the documentation was a pile of
+inclomplete information pieces in poor English.
+
+Interface with the Allwinner's Boot ROM (BROM) was a secret &mdash; definitely not the best variant for
+a beginner. For the Iodine, however, as mentioned, we had stumbled on the blog. This way mips became the
+start, where testing of the written happened. At least of the start code. Relatively easy, we assured its
+ROM code to start our code, yet from an SD card! That was magic, something hardly believable,
+even when seeing it. All this 2017 journey was such magic and also the lowest level programming, that
+I've ever done. Basically, first, I was rewriting from C to mips assembly the code from the blog and uboot,
+referenced in the blog.
+
+The first steps &mdash; initialization of PLL (Phase Locked Loop), UART, setting frequencies for the
+core chipset components (CPU, its cache, RAM), SDRAM initialization! With the time, I had been adding
+my own stuff, like memory testing and some DDR controller configuration checkings, gating unused
+controllers or reading from SD card. This had been done using the gained experience and reading
+the Ingenic's manual. Below is the screenshot from 16 November 2017, where the code does all the
+aforementioned, where it already is able to read multiple blocks in one command and does 2 such
+successful readings: 1 single block (cmd17) and one multi block (cmd18).
+That was sketching the firmware volume reading with further phases in it and further jumping
+into them, deploying Uefi core, that is. However, in 2018, we had switched to the OS, in the plain
+uboot on arm SBCs and as of now (10.10.2023), I can't say, why efify had been left this way then.
+Middleway, so to say. Probably because I wanted to start writing "the OS itself" badly. :)
+</p>
+<button class="expandbtn" onclick="OnClick(2, 0)">
+	efify on Iodine makes its first steps</button>
+<div id="imgsplr2"></div>
+<hr class="hrboot" />
+
+<h3>Ant loader proper</h3>
+<p>
+As I just said, ultimately, the first targets of the Ant loader itself were arm SBCs.
+Initially, the work on Torpedo in there,
+was going on in the plain uboot environment direction.
+Because UEFI support in uboot back then was poor.
+Then, I decided to not ignore emulators and they had UEFI as a
+firmware option for their virtual machines (Ovmf), so, in March of 2020,
+I started exploring this (so desired) field and, in April, I got the first OSL,
+running in Qemu and Virtual Box, and showing this funny muzzle.
+The screenshot below shows the x64 run, but the arm ones,
+were tried as well (there was nothing architecture specific at that stage).
+</p>
+<button class="expandbtn" onclick="OnClick(0, 0)">Qemu runs our first Uefi loader</button>
+<div id="imgsplr0"></div>
+
+<p>
+As of 07.03.2021 and through all 2021, the work was going on (when it was) with
+the uboot's Uefi on arm SBCs in the real hardware part. This page tells
+about history of creating such a loader for Ant.
+For technical details, see the "Technical Information" section,
+in short, Torpedo (or <i>antload</i>, by the name of its file) is a one level loader,
+unlike the Windows' counterpart, where <i>bootmgr</i> duplicates firmware's Boot Manager
+and processes all the Windows installations, present on a machine, handing then control to the next
+loader &mdash; <i>winload</i>, specific for the particular installation.
+antload relies on the Uefi Boot Manager to handle multiple installations
+(of Ant) and cares only about that instance, information about which is
+handed to it through the <i>Load Option</i>. And it's not a "universal" loader &mdash;
+it only can boot Ant.
+</p>
+
+<p>
+This is one of the first recorded antload runs on a real machine. The machine is
+<a href="doc/Targets.htm#pine" class="undecorated">Pine</a>.
+</p>
+<button class="expandbtn" onclick="OnClick(0, 1)">Pine runs our Boot Screen demo</button>
+<div id="splr0"></div>
+
+<p>
+Video, showing antload running on
+<a href="doc/Targets.htm#Xe" class="undecorated">Xenon</a>, follows. Both run the uboot's Uefi.
+This one basically shows its Boot Screen as the previous one, but without the hacks needed.
+</p>
+<button class="expandbtn" onclick="OnClick(1, 1)">Xenon runs our Boot Screen demo</button>
+<div id="splr1"></div>
+
+<p>
+In general, the problem with the uboot's Uefi is its incompleteness and possible
+incompliance. For example, as for March 2021, out of 5 boards tried, only Xenon
+had everything needed. Regarding incompleteness, the main annoyance is, of course,
+lack of support for video output, HDMI mostly (on arm SBCs that is). Or, sometimes,
+even supporting HDMI, uboot doesn't support yet <i>GOP</i> (Graphical Output Protocol).
+And, as a result, &mdash; video framebuffer for early stages of the OS is missing.
+For the loader phase, this absence isn't critical &mdash; we can use
+<i>STOP</i> (Simple Text Output Protocol) to UART at the very least, this thing
+is always implemented.
+For the OS, this would be a bit limited, because it's not only about having graphical
+output at the early initialization stages. For a long time, we wouldn't have
+a GPU driver, so we would rely on the display controller being initialized by firmware.
+Thus having GOP reported framebuffer would be as saving for all
+the graphical OS components as VGA was in the BIOS times.
+Not having GOP framebuffer would mean not having graphics at all, until the OS gets that GPU driver.
+Also, we would need to hardcode basic UART support in our <i>bootvid.dll</i> for every SoC family.
+But we have emulators, that helps a lot with this respect &mdash;
+they almost always have GOP. Of course, they come in handy for x86 too.
+</p>
+
+<p>
+Speaking of x86. In the beginning of the UEFI Torpedo development,
+we had only one UEFI capable machine, our home HP Probook 4530s laptop (Iridium),
+&mdash; not exactly a testing machine.
+It's in addition to its firmware, having a weird GOP bug.
+</p>
+<p>
+Generally, for some unclear to me reason, machines, both real and virtual,
+from different times, expose 2 GOP instances. Yet more strange is that
+a handle, on which one of these instances is installed, always lacks
+its <i>Device Path</i> instance, even though, the specification says, all
+handles should have such. Nevertheless, on all the tested machines,
+both instances work just fine. On all, except Iridium.
+When you use <tt>LocateProtocol()</tt> on it, it returns to you the GOP instance,
+whose handle, doesn't support Device Path and, it turns, it doesn't draw to the current
+framebuffer as well. When you use its <tt>Blt()</tt>,
+all the calls to it succeed. But the drawings go into some other memory, not that,
+exposed through the framebuffer address of this GOP instance. Both instances report
+the same <tt>FramebufferBase</tt> &mdash; <tt>0xC0000000</tt> by the way. It belongs
+to the Intel GMA GPU, there is also AMD Radeon HD7470M GPU. The most mysterious thing
+is that your drawing onto the screen does appear there though
+... for a short duration, <b>after</b> the loader exits, before the Boot Manager
+redraws its interface. And if you didn't stop the timer, whose event's notification
+function is in charge of redrawing frames of the Boot Indicator, then your Indicator
+will be showing its animation right in the firmware Boot Manager interface!
+Whereas it wasn't shown, while the loader ran. Writing into the framebuffer through
+the provided address directly, works as expected though. But if you will use the second
+instance, <tt>Blt()</tt> calls not only succeed, but cause the drawings appear on the screen.
+Looks like despite correct reporting the framebuffer base, <tt>Blt()</tt> confuses
+where to write to, when serving the 1st GOP instance.
+I assume, its code is the same across instances, probably some global structures
+could have gotten incostintent. Such a strange bug. Overcoming it on the loader side is possible:
+you use <tt>LocateHandleBuffer()</tt> instead of <tt>LocateProtocol()</tt> and then go and open
+Device Path via <tt>OpenProtocol()</tt> on every handle in the buffer. Once you find the
+handle, that supports Device Path, use it for opening GOP, it will draw on the screen.
+But using this approach would mean introducing a very specific
+workaround, that wouldn't make any sense for other machines, not having this bug (but possibly
+having their own ones), so we left it as is, being satisfied with the very fact,
+we've found the workaround. Because again, ConOut works, framebuffer for Ant is exposed,
+so it can and will be used there, remember, the OS can't call <tt>Blt()</tt>, protocol
+methods are only valid during Boot Services. The OS can use only parameters, reported via
+GOP &mdash; framebuffer base, resolution, bytes per scanline etc; and honestly,
+in such an early stage of development, the loader part of the Boot Screen drawing would
+last microseconds, barely noticeable. Fine, if the OS doesn't redraw static elements
+of the Boot Screen and only cares about the indicator, they won't be visible on
+the initialization as well, only the indicator will be. Exactly the invisibility
+of the loader drawing is a consequence of the bug.
+</p>
+<p>
+Later, in October 2020, we bought a Xiaomi RedmiBook 16,
+<a href="doc/Targets.htm#GaT" class="undecorated">Gallium</a>, and tested antload on it too. Here is the photo
+of such a successful test.
+</p>
+<button class="expandbtn" onclick="OnClick(1, 0)">
+Gallium showing off the first screen drawing on real hardware x64</button>
+<div id="imgsplr1"></div>
+
+<h3><tt>riscv64</tt> beginnings</h3>
+<hr class="hrboot" />
+<small>30.08.2021</small>
+<p>
+The below short and clumsy video is somewhat special, since it shows a run on
+rv64 architecture, which yet some couple of months ago, hadn't even
+been considered a target (no machines, no PE capable compilers &mdash; no wonder,
+it hadn't). And now, we have antload, running and showing the
+<i>Option Screen</i> (in the setup, there was no GOP, so the demo was
+limited by the UART cuteness). The setup is Qemu's <i>virt</i>
+machine with uboot as the firmware. I wrote a utility (Pegen),
+that made conversion from ELF to PE, and it is
+even capable of generating base relocations! So, this way, we were able to get
+a working UEFI loader for this brand new
+architecture. It was in the August of 2021. The video shows the run.
+</p>
+<button class="expandbtn" onclick="OnClick(2, 1)">
+	Qemu virt runs our Option Screen demo on rv64!
+</button>
+<div id="splr2"></div>
+<p>
+Even though, as for 2023, rv64 is out of the target list, this may change.
+For example, Microsoft releases rv64 support in MSVC.
+</p>
+</div>
+</div><div class="uppchar"><a href="doc/BootVideos.htm#up" class="undecorated">☝</a></div>
+	</body>
+</html>

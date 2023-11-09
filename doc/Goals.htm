@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<!-- 3:29 06.08.2020 -->
+
+<html id="up">
+	<head>
+		<title>ANT Goals</title>
+		<base href=".." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Operating System, osdev,
+						Windows, Windows NT, UEFI, system programming, x86, ARM, MIPS, RISCV, PC, SBC"
+		/>
+		<meta	name="description"
+				content="This site is about ANT, a hobby, Microsoft Windows NT inspired Operating System"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/IntroductionCommon.css" />
+		<style type="text/css"></style>
+
+	</head>
+	<body class="bodyintro">
+		<span class="navbar"><a href="doc/uk/Goals.htm" class="navlink">Українською</a></span>
+		<h1 class="h1intro">ANT Goals</h1>
+		<small>Date: 06.08.2020</small>
+		<hr class="hrintro" />
+		<div class="navbar">
+			<a href="doc/AntMain.htm" class="navlink">main</a> \
+			<a href="doc/Book.htm" class="navlink">book</a> \
+			<a href="doc/Introduction.htm" class="navlink">introduction</a> \
+		</div>
+		<hr class="hrintro" />
+
+<div class="padded-page-text">
+<h3>Environment Subsystems (ESS)</h3>
+<p>
+Before, I mentioned about the intention for Ant to have support
+for several Environment Subsystems (ESS).
+ESS is an OS facility, that gives the OS ability to run
+applications, written for a particular Application Programming Interface
+(API) environment. An ESS implements the environment, that those applications
+expect from the system.
+Starting from providing API function sets themselves
+and up to creating a "view" of the system, characteristic to that environment.
+Implementation wise, ESS comprises of dynamic libraries (DLLs),
+containing functions of the API sets, or classes,
+if we are talking about some Object Oriented API set.
+Also ESS includes "support processes", that create that "view"
+of the environment. What is needed to make the "view"
+is, of course, specific to the API standard, the ESS implements.
+Other components, if needed, could be kernel modules, adding (or optimizing)
+the functionality, required by the API set or aiming in the "view" creation.
+The idea of ESSs is taken from what NT has had from the beginning.
+</p>
+<p>
+ANT is going to have an always present, "native" ESS, <tt>AntAPI</tt>.
+It is going to be very <tt>WinAPI</tt> like. An elaboration on this
+important topic is needed, but it's a matter of the project progress.
+</p>
+<p>
+In addition, there is an intention to write a POSIX ESS.
+That's because not only having the goal
+of supporting several ESSs is challenging and thus interesting, but also gives
+the OS more chances to be used.
+As readers may know from reading about the
+<a href="doc/Targets.htm" class="undecorated">targets</a>,
+our first targets were inexpensive arm SBCs.
+They are popular among enthusiasts of different kinds,
+broadly called "tinkerers". They do different things with
+such SBCs &mdash; from using them as fanless mini PC desktops
+to Do It Yourself (DIY) Network Attached Storages (NASs),
+media centers, microservers of a plenty of kinds, some robotic
+stuff or even scientific projects. As of now, Linux is, basically,
+the only option for them. This means, they are used to the POSIX
+utilities and overall &mdash; that environment.
+That's why having POSIX ESS, capable of providing the
+environment for running familiar for that audience programs
+is important for the OS viability. And, of course,
+these POSIX targeted programs are available for porting.
+It's obviously infeasible to create every bit by one
+person or even a small community.
+</p>
+<p>
+Thus ANT is going to cover somewhat different PC-like
+segments of computers and their use cases &mdash;
+ordinary desktop, server, microserver and varying kinds
+of mobile scenarios. On this later, but this coverage
+dictates ANT to define strictly one aspect of its design
+&mdash; ANT should be flexible with options, that depend on
+the usage scenario being "interactive" or not.
+"Interactive" means involving a local user, being a human,
+interacting with the device through its User Interface (UI)
+peripherals.
+And also ANT should be flexible with options,
+related to the way, the users would do that interacting.
+Remember, we were talking about arm SBCs. Often, everything, the
+user needs during a local session, is running a Console
+User Interface (CUI), providing to them those familiar
+Command Line Interface (CLI) utilities. This means,
+that ANT should be able to easily have either a fully
+fledged Graphical User Interface (GUI) installed/activated
+or only CUI. The first embeds the second, but not vice versa.
+So, here we have another important concept &mdash;
+User Interface (UI) Subsystem variance. Switching between the
+UIs is a matter of some kind of dynamic configuration
+(that will be elaborated in the appropriate section).
+In short, one would need to define a CUI-only logon session
+"profile" and use it for logging into CUI session.
+ANT should be easy with recognizing is it a non-interactive
+session, without any local interactive user logged
+(server scenario), is it a CUI-only session, with the local
+interactive user, that uses its output device for CLI only
+or it's a full GUI session, with windows,
+controls and all those complex things.
+</p>
+<p>
+Farther. We do know, that desktop GUI and mobile (smartphone)
+GUI are way different. I don't believe in
+an efficient unification of such strikingly different in their
+"physics" formats of UIs, so ANT is going to differentiate
+it instead of unify. Sharing and unifying what is really possible.
+So, we have several kinds of devices, regarding user interaction:
+</p>
+<dl>
+	<dt>Desktop, laptop without the touchscreen input device</dt>
+	<dd>
+the most common desktop computer. Main output is display, input &mdash; keyboard and mouse, trackpad
+	</dd>
+	<dt>Desktop, laptop with the touchsceen input device</dt>
+	<dd>
+something fancy and new, like e.g. new laptops/convertibles with
+the power and screen size of a common desktop/laptop but with touchscreen. Main input is still keyboard, mices,
+but also, touchscreen adds into the game.
+	</dd>
+	<dt>Tablet PC, Hybrid, Ultrabook. display, touchscreen implied</dt>
+	<dd>
+relative to the above, but less powerfull, something inbetween those and tablets.
+Here, touchscreen could be used more often and might not be "secondary" input anymore.
+	</dd>
+	<dt>Just a tablet computer, &lt;14&Prime; display, touchscreen implied</dt>
+	<dd>
+primary input device here is touchscreen even if there is an attachable keyboard, it's rather a helper.
+	</dd>
+	<dt>Smartphone, &lt;7&Prime; display with touchscreen</dt>
+	<dd>
+common smartphone computer device. In fact, thanks to USB C, this platform becomes way more
+complicated in this regard, than just a "smartphone". Because now, it's possible to attach
+a keyboard, mouse, harddrive and an HDMI/Display Port monitor to it!
+Turning into a desktop. The desktop, hosted in a tiny flat pad of the smartphone.
+This interesting capability will be discussed later, but still,
+Mobile GUI remains "the primary" subsystem for the
+platform, because it's still &mdash; mostly a mobile device.
+Desktop GUI should be possible to get installed here
+and used as a secondary UI subsystem. And it sounds cool,
+as a goal to achieve.
+	</dd>
+	<dt>Small display devices without touchscreen</dt>
+	<dd>
+navigators? Or retro game hand held consoles, mentioned in the
+<a href="doc/Targets.htm" class="undecorated">Target Park section</a>. As of the latter,
+it's not for the beginning, but as said later &mdash; it's thought, that all the specifics of such
+UIs would mostly be implemented through a special Shell component, not through defining some new
+GUI subsystem (with its APIs, messages etc).
+	</dd>
+</dl>
+<p>
+And they demand ANT to define a set of UI Subsystems, each suitable (the best)
+for an appropriate subset of these. But not even trying
+to get into the "foreign" land. Users may see this horrendous UI experience
+of nowadays Linux smartphones, cluelessly letting do anything,
+but with awful results. Those floating desktop windows on a
+tiny smartphone display and painful trickery, the user needs
+to apply in order to have it at least somewhat working.
+In ANT, the plan is to have a common, "desktop" GUI,
+that may adapt to serve touchscreen input
+(for example, using "themes" with bigger and flatter controls
+aiming users to use it with the touchscreen) and also a mobile
+GUI &mdash; for small tablets and smarphones.
+There might be also other, special purpose UIs,
+with different "shells" (the program, representing to user the
+system on the screen, like Explorer in Windows &mdash; this is
+the <b>real</b> shell), like for example for the mentioned hand
+held retrogaming consoles. But, initially, it's going to be two
+GUI Subsystems:
+<ul>
+	<li>
+Desktop &mdash; a familiar GUI, what anyone has seen on their desktops.
+But, the one, being able to adapt to new devices with touchscreen and do
+it seemlessly (for programs, for example, thinking it's "just a normal desktop")
+	</li>
+	<li>
+Mobile &mdash; an honestly too much unexplored yet thing, the only what could
+be said about it now is &mdash; it's for mostly smartphones, where it's
+impossible to unify the GUI interface with the former and where one needs to
+provide something different. So for example a browser for this GUI and for
+the Desktop GUI, won't be the same not only in their view and behavior,
+but in the underlying design and used APIs as well. It makes development for
+this GUI more complicated, but lets it have a chance to be efficient,
+rather than hoggy and bloated. What the differences there would be, it's hard
+to say, &mdash; yet to be investigated, but those shall be introduced only by
+necessity of achieving application efficiency,
+in any imaginable aspect, &mdash; speed, resources, user friendliness,
+developer friendliness (rich toolset). It's just another (physically)
+graphical environment and it requires different approaches
+in how it should be implemented. The most obvious difference from the
+desktop GUI with its top level overlapped windows is that
+the Mobile GUI always gives to a program the entire screen, so its window is full
+screen. And of course, touchsreen is the main input device, with taps
+instead of clicks.
+	</li>
+</ul>
+</p>
+</div>
+</div><div class="uppchar"><a href="doc/Goals.htm#up" class="undecorated">☝</a></div>
+	</body>
+</html>

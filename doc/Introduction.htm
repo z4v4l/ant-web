@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<!-- 1:47 07.07.2020 -->
+
+<html id="up">
+	<head>
+		<title>Introduction to ANT</title>
+		<base href=".." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Operating System, osdev,
+						Windows, Windows NT, UEFI, system programming, x86, ARM, MIPS, RISCV, PC, SBC"
+		/>
+		<meta	name="description"
+				content="ANT, Microsoft Windows NT inspired Operating System"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/IntroductionCommon.css" />
+		<style type="text/css">
+/* styling, specific to the page */
+/* flexbox height for navigation buttons must be the same as the image height */
+/* AvIntro320.jpg is 320px in height. btnh must be l.t. imgh / nobuttons */
+@media only screen and (min-width: 1301px){.div-navbtn-fb{height: 320px;}.nav-buttons{height: 74px;}}
+		</style>
+	</head>
+	<body class="bodyintro">
+		<span class="navbar"><a href="doc/uk/Introduction.htm" class="navlink">Українською</a></span>
+		<!--hr class="hrintro" /-->
+		<h1 class="h1intro">Introduction to ANT</h1>
+		<small>Date: 07.07.2020</small>
+		<hr class="hrintro" />
+		<div class="navbar">
+			<a href="doc/AntMain.htm" class="navlink">main</a> \
+			<a href="doc/Book.htm" class="navlink">book</a> \
+		</div>
+		<hr class="hrintro" />
+
+<div class="div-navroot-fb">
+<div class="div-navbtn-fb">
+	<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Targets.htm"'>
+		Targets</button>
+	<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Name.htm"'>
+		Name</button>
+	<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Goals.htm"'>
+		Goals</button>
+	<button class="nav-buttons btn-allowed" onclick='window.location.href = "doc/Organization.htm"'>
+		Organization</button>
+</div>
+<img alt="Eye Of Horus" src="res/AvIntro320.jpg" />
+</div>
+<hr class="hrintro" />
+
+<div  class="padded-page-text">
+<p>
+ANT is an Operating System (thereafter OS), being written
+as a personal hobby project. It's inspired by the Microsoft Windows NT family, but
+it is not trying to be a strictly following clone of it,
+not to mention being binary compatible
+with it, that would be just infeasible for a hobby project.
+As stated above, it's a hobby and desire to recreate NT and WinAPI was a
+result (or expression) of liking this OS and API, not of will to "compete", "fight",
+"replace" and anything similar, coming from dictionary of those, that see in software
+development "ideology and politics" (or, rather, religion).
+</p>
+
+<p>
+ANT is going to be a modular kernel, with modules (drivers) for handling peripherals or providing
+extended functionality or abstracting, running in kernel mode (as a rule). Executable images are
+in the Portable Executable format (PE) (for both OS and user mode executables). For architectures,
+where the PE format is not available with the current compilers, the ELF format is considered, as
+a temporary solution; for now (2021 &dash; 2023) using ELF is only plans.
+</p>
+
+<p>
+It is a multiuser, general purpose OS for desktop, desktop-like, server, mobile and,
+possibly, other use cases.
+Multithreading, with preemptive thread dispatching.
+Supporting Symmetric Multiprocessor (SMP) and Heterogenous Multiprocessor (HMP).
+</p>
+
+<p>
+Configuration data of OS components and programs are stored in the <i>Registry</i>, a hierarchical
+database, similar to conventional File Systems (FSs), but such one, that gives to variables (file analogs)
+typified cells as storage units, whereas for file systems, a file &mdash; is always
+a non-typified container.
+In the registry, there are <i>keys</i>, directory analogs, and variables and the latter have
+a type, which means, that their values can only belong to the set, defined by the type. This allows
+for providing a more efficient way of handling configuration data. For example a program wouldn't
+need to parse text files with configurations on every init, instead, it would pull out from the registry
+either a single binary variable, say a 64 bit integer, of even a whole composite structure and these
+data would be ready for use without parsing.
+This fine grained structure, together with the corresponding programming interface for accessing it,
+gives to the OS and programs a unified, efficient and convenient mechanism for storing their configurational
+data. And in addition, very important, the Registry engine, Configurational Manager, provides <i>logging</i>
+on the registry, for both data and metadata (i.e. registry structure), what guarantees registry integrity
+and protection from corruptions, caused by abruptive interruptions of the registry operations (dirty shutdowns e.g.).
+</p>
+
+<p>
+Physically, Registry consists of a set of special files &mdash; <i>hives</i>, each of which contains
+a Registry branch (subtree). Registry is shown as a single tree, made up of these branches.
+Thus, following the analogy with FS, hives are volume (disk) analogs, and the Registry tree
+is an analog of a monolithic FS tree on systems, that inherit this file data representation
+style, &mdash; so called Unix style.
+Ant, as Windows, uses this approach for Registry, but does a different method for file
+data. In it, a volume tree is shown on its own, turning the view into a forest of trees,
+with a tree per each volume (disk).
+These trees get distinguished by assigning an identifier (e.g. a letter) for the root directory
+of a volume (disk), see the next paragraph for Ant specifics.
+This is so called DOS style of file data representation and for them, it seems to be more
+convenient, than the monolithic one, because data hierarchy, shown in the DOS style, is shown
+clearer and closer to reality. For Registry, on the other hand, a unified tree, seems a normal
+way to go. However, worth noting, that possibility of representing Registry as forest needs
+further investigation, maybe this variant will seem more reasonable here as well.
+</p>
+<p>
+Plans are to implement the internal Registry format as in Windows, to be seen how it turns out, though.
+</p>
+
+<p>
+Ant, as already said, uses DOS style for file data representation. Difference from Windows is that
+identifiers for disks are not just latin alphabet letters, but numbers, encoded as numerical literals
+in base 36 system, built upon the [0 - 9, A - Z] set. Maximal ordering (literal length in characters)
+is planned to be 3 or 4. This allows for avoiding the identifier exhaustion situation, where the
+number of disks is greater, than the number of letters, because with order 3 literals, we have
+limit in 36<sup>3</sup>, what is 46656 items and with order 4 literals, it's 36<sup>4</sup>,
+which is 1679616 &mdash; more, than enough, plus, it's easy to extend if necessary. The old DOS
+scheme is fully compatible with this one. Correct values run from <tt>0</tt> to <tt>ZZZ</tt> (46655)
+for 3-literals, <tt>0</tt> to <tt>ZZZZ</tt> (1679615) for the 4-literals. Leading zeros and letter
+case don't matter. Here is an example of correct identifiers, using 4-literals: 
+</p>
+<div class="console accent">
+0:\<br />
+1:\some\directory<br />
+C:\Ant\System\ant.exe<br />
+Pics:\2008\vacation<br />
+esp:\efi\Upptech\antload.efi<br />
+Uefi:\efi\Upptech\antload.efi
+</div>
+<p>
+The last 2, by the way, point to the same valume and use one of a few identifiers, reserved by the system.
+In this case, it's for the U<b>e</b>fi <b>s</b>ystem <b>p</b>artition.
+Traditionally, <i>Boot Volume</i>, the OS home, gets the <tt>C</tt> letter.
+</p>
+
+
+<!--p>
+====
+Configuration is stored in the Registry, a hierarchical database, similar
+to File Systems (FS), but providing typed cells as units
+of persistent storage for the OS and programs to have a unified and fine grained configuration facilities,
+through this structure and the appropriate Application Programming Interface (API) for accessing it.
+The Registry engine, Configuration Manager, provides logging (journaling) capabilities, so that the
+data, stored in the Registry, are protected from damage. The registry is build of registry "hives"
+&mdash; files, that embody different "branches" of the Registry. Would it be Windows compatible
+registry format is not decided yet, but I lean to this.
+====
+</p-->
+
+<p>
+Is written mostly in C, plus some assembler.
+The first target architectures are x86 and arm. There were also intentions
+to include mips and ppc to the target list,
+but the situations prevented them to become reality.
+riscv architecture was being considered
+as well, since Single Board Computers (SBCs) and even PC-likes with it started to appear (26.05.2021).
+But then, in 2022 &dash; 2023, everything except x64 and arm64 was abandoned. Read
+<a href="doc/Targets.htm" target="_blank" class="undecorated">this article</a>
+for a more detailed retrospective.
+</p>
+<p>
+The primary firmware is Uefi. Potential other firmwares considered were legacy x86 Bios, Open Firmware,
+and, in tough cases, &mdash; a "firmwareless", plain uboot environment, without any services,
+exposed to the OS Loader (OSL).
+Again, read the <a href="doc/Targets.htm" target="_blank" class="undecorated">
+Target Park and Firmware Environment</a> page, to know in a more detail about the targets and firmware
+environments, what was left as target, what was discontinued and why.
+</p>
+
+<p>
+Also, ANT has a strong emphasize on supporting several Environment Subsystems (ESS),
+that is &mdash; having the ability to run programs, written for various execution
+environments, API sets (standards). The main subjects are WinAPI and Posix. More on
+this on <a href="doc/Goals.htm" target="_blank" class="undecorated">ANT Goals</a>
+page, because it's a large topic on its own, in short, the primary one, <i>AntAPI</i>,
+is WinAPI-like. It's needed for example for every GUI program; Posix ESS is
+going to be CUI only. Actually, the Posix standard doesn't cover graphical interfaces.
+There is no intention to port anything graphical from Unix clones.
+</p>
+
+<p>
+Planned is to have a robust packaging system, or Installation Framework.
+For avoiding the abysmal clutter, inevitably appearing without an organized,
+well defined mechanism to handle myriads of applications and their data,
+users install. Also, for fighting the bloat, accompanying the aforementioned
+mess, rising from many times duplicating the same things,
+installed by different parties as dependencies over and over and over.<br />
+This framework should be powerful and user friendly simultaneously.
+Which, of course, clearly reveals, &mdash; it's not an easy task.
+Sketchy depicting, the user, for installing something, needs to get
+the "package" of that thing, from the trusted source, and go through
+installing it, using a well defined utility set, be it CUI or GUI.
+The thing, wanting to be installed, needs to prepare the package the
+defined way, claiming what it is and what it depends on. The framework
+will define if everything is OK with it and register it in its database.
+Packages should also provide users with convenient, and required even,
+things like an easy to use installation process, ability to customize
+the installation, ability to install several versions of the package,
+or choice of users for whom this package to install. It shouldn't be just a dumb
+</p>
+<div class="console accent">
+C:\Users\User&gt;meaningless-name-with-dashes install Thing
+</div>
+<p>
+Obviously, this topic asks for its own page (which will be added later,
+when this framework is something more mature, than blurry babbling about it).
+</p>
+
+
+</div><div class="uppchar"><a href="doc/Introduction.htm#up" class="undecorated">☝</a></div>
+	</body>
+</html>

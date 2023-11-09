@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<!-- 3:17 06.07.2020 -->
+
+<html id="up">
+	<head>
+		<title>Target Park and Firmware Environment</title>
+		<base href=".." />
+		<meta charset="utf-8">
+		<meta	name="keywords"
+				content="Upptech, ANT, efify, Operating System, osdev,
+						Windows, Windows NT, UEFI, system programming, <tt>x86</tt>, <tt>arm</tt>, <tt>mips</tt>, RISCV, PC, SBC"
+		/>
+		<meta	name="description"
+				content="ANT, Microsoft Windows NT inspired Operating System"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta property="og:title" content="Avril Operating System"  />
+		<meta property="og:image" content="https://ant-upptech.sourceforge.io/res/AvOgImg.jpg" />
+		<link rel="shortcut icon" type="image/x-icon" href="res/EyeOfHor.jpg" />
+		<link rel="icon" sizes="128x128" href="res/EyeOfHor.jpg">
+		<link rel="stylesheet" href="css/IntroductionCommon.css" />
+		<style type="text/css"> 
+/* styling, specific to this page */
+	.bold-list{font-size: 14pt; font-weight: bold;}
+	/*tt{font-family: Monospace;}*/
+	table, th, td{
+		border:				2px solid #2f3f4f;
+		border-collapse:	collapse;
+		color:				#2f3f4f;
+		/* font-family:		"Courier New", Tahoma, Arial, Verdana; */
+	}
+	th, td{
+		padding: 3px;
+	}
+		</style>
+
+	</head>
+	<body class="bodyintro">
+		<span class="navbar"><a href="doc/uk/Targets.htm" class="navlink">Українською</a></span>
+		<h1 class="h1intro">Target Park and Firmware Environment</h1>
+		<small>Date: 07.07.2020</small>
+		<hr class="hrintro" />
+		<div class="navbar">
+			<a href="doc/AntMain.htm" class="navlink">main</a> \
+			<a href="doc/Book.htm" class="navlink">book</a> \
+			<a href="doc/Introduction.htm" class="navlink">introduction</a> \
+		</div>
+		<hr class="hrintro" />
+
+<div class="padded-page-text">
+<p>
+In the beginning and it was autumn of 2014, the CPU architectures considered to be targets for ANT were:
+</p>
+<ul>
+	<li>x86 &mdash; only 64 bit, due to relevance</li>
+	<li>arm &mdash; both 32 and 64 bit, but focusing on the latter, again because of relevance</li>
+	<li>mips &mdash; only 32 bit, because no 64 bit targets available</li>
+	<li>ppc &mdash; pretty esoteric and illusory, just as a "why not" plan</li>
+</ul>
+
+<p>
+The target park started in the November 2014 from buying two 32 bit arm Single Board Computers (SBCs)
+&mdash; Beagle Bone Black and Cubieboard 2. x86 PCs have always been considered as targets,
+but the initial work was planned to start with something more "exotic".
+For not getting the design decisions biased towards the obviously dominant architecture,
+for not harming portability. So arm SBCs were considered a nice start.
+With jumping into x86 anytime as soon, as it's deemed possible to do development in parallel.
+Because ultimately, not starting with exotic things, but parallel development
+is the key for avoiding the bias.
+</p>
+<p>
+Also, I bought iMac G5 the same month.
+Despite from the beginning it looked like an adventure, it was
+pleasant to have such a diversity. Also remembering that NT has been started exactly
+like this &mdash; targetting a lot of RISC architectures, among the dominant x86. Later, in 2016,
+I got a mips SBC, donated to me by a kind person, then Imagination employee, &mdash;
+Alexandru Voica. What was very nice and desired.
+</p>
+<p>
+They, Imagination, had bought mips around 2013 and, apparently, had intentions
+of setting a serious competition to arm in the mobile segment with it.
+Within this goal, they launched several initiatives (I remember this <b>purpl</b>
+coallition or alliance or something like that) and, also, they launched a mips SBC &mdash;
+Mips Creator CI20, somewhere in 2014 or at the beginning of 2015, that should
+become a workplace for developers, on android, foremost. The board sparkled
+interest in appropriate circles. Articles and blog posts about it started to appear.
+I also saw these articles and, of course, decided to buy it. But, it turned out
+quickly, that the board is not delivered to Ukraine &mdash; it was 2015, the second
+year, since russia had started to implement its old, heinous plans of grabbing
+Ukraine back in its dirty paws, the second year of aggression, when everybody
+could see clearly, what russia really is...
+</p>
+<p>
+I had been leaving complaining and sighing comments under such articles
+due to that unavailability and, once, in the autumn of 2015, around my
+birthday, I got a mail from Alexandru, that told me, they had to delete
+my comment (this time, it was on the Imagination site, apparently) due
+to "profanity", which is not allowed over there, but, also, he added,
+that he would want to send me the board.
+Worth to add yet, that he had to bother quite a bit with the sending,
+even the Royal Mail (of Britain) was experiencing issues with delivery to Ukraine then.
+He was able to send it only from the 3rd time. And I got as impudent as to
+ask if he hadn't forgotten about the promise (there was no updates from him
+for long). So, in the spring of 2016, I got a so desirable mips target.
+mips has a special place in my heart.
+And again, NT basically started to spin up on mips. After that Intel's RISC
+chip had proven to be problematic to start with.
+</p>
+<p>
+Also, the park replenished with 64 bit arm machines. CSA90 Set Top Box (STB) and then Pine64+
+were bought in the August 2015 and April of 2016 respectively. In the end of 2017,
+32 bit CPU Banana Pi M2 Ultra board was bought and, in the July of 2018, I bought Rock64, sporting
+a 64 bit arm CPU.
+Finally, in the end of 2020, generous Tom Cubie (yes, that very same, who designed Cubieboards),
+from <a class="undecorated" href="https://wiki.radxa.com/Home">Radxa</a>, gave me away
+a 4GB model of their amazing Rock Pi 4B board, adding a 32GB  eMMC module.
+So, I've got a long wished RK3399 board.
+</p>
+
+<p>
+Below is the list of the mentioned boards,
+plus a brand new ASRock x86 motherboard, bought somewhere in 2016 as an upgrade for the spare PC,
+with an older Asus motherboard from around 2001 &dash; 2002, taken from relatives. This ASRock board, powered
+with the powerful 3GHz Core 2 Duo E8400 CPU had since been considered as an x86 target:
+</p>
+<ul>
+	<li>x64: ASRock desktop motherboard (Core 2 Duo E8400 CPU)</li>
+	<li>arm32:
+		<ul>
+			<li>Beagle Bone Black</li>
+			<li>Cubieboard 2</li>
+			<li>Banana Pi M2 Ultra</li>
+		</ul>
+	</li>
+	<li>arm64:
+		<ul>
+			<li>CSA90 <i>(Android 5 STB, with RK3368 System On Chip (SoC))</i></li>
+			<li>Pine64+</li>
+			<li>Rock64</li>
+			<li>Rock Pi 4B</li>
+		</ul>
+	</li>
+	<li>mips32: Mips Creator CI20 <i>(mips32r2 CPU SBC)</i></li>
+	<li>ppc64: iMac G5 <i>(POWER4, PowerPC 970FX CPU)</i></li>
+</ul>
+
+<p>
+The ASRock PC in the list, was the only real x86 motherboard, present in the park. But it lacked
+a power supply unit, so it was standing dormant all the time. And, unfortunately, it didn't do UEFI.
+mips Creator CI20 was the only one of the mips architecture, it was 32 bit, dual core, at 1.2GHz.
+The iMac's processor was a 64 bit single core PowerPC processor.
+These two were interesting targets and having
+a diversity of target architectures was in its own interesting, as said above,
+<i>but lack of compilers, being able to produce images in
+the Portable Executable (PE) format for these architectures was a stop factor</i>.
+Neverthless, I had a bare metal programming experience with the mips machine, and still hoped,
+I could solve the compiler issue, so kept these not abandonded (too bad, the mips
+owners didn't have the same intentions for the architecture, they bought just to abandon it
+shortly after).
+</p>
+
+<p>
+And then war knocked at our home. Again... (russian bastards started the invasion yet in the
+end of 2013). At 24 February 2022, a so called "hybrid war" ended, now they went the
+full scaled aggression against Ukraine by massive missile shelling the whole Ukraine's territory.
+I clearly remember that morning. 13 April 2022, we had to flee the home,
+Bachmut, Ukraine, Donetsk region, due to the rapidly arising risk of getting killed.
+The government urged the population of our region to evacuate.
+Missile shelling has become a routine for Bachmut.
+We had to evacuate from Kramatorsk, but at 8 April, russian unhumans,
+shelled its railway station, one of the main evacuation points
+for Donetsk region residents, by a rocket.
+That terrorist act killed 61 people, among which 7 children.
+</p>
+<p>
+As of the November 2022 (and now October 2023),
+I even don't know if our home is not destroyed, damaged &mdash; certainly
+(<a class="redlink undecorated" href="res/NashDim-10-2022.jpg" alt="ourhouse">this</a>
+is its photo, taken in the middle of October 2022, the damaged appartment on the 5th floor
+is in our entrance). Update (06.2023):
+<a class="redlink undecorated" href="res/NashDim-02-2023.jpg" alt="ourhouse">this</a>
+is how the home looked at around February &dash; March 2023, it's from the other side.
+As heartbreaking as expected...
+russians ruined our home, we've been living in for more, than 32
+years before these unhumans came to "save us". We had to flee
+it and we had to leave everything there.
+All the boards, bought and received before 2022,
+together with my main working computer, "Drugh" ("Friend, Buddy") got left too.
+The home got ruined, with whole Bachmut, only memories remained.
+russians keep
+aggressively attacking the town. What they can't capture, they
+wipe from the face of Earth. Like what they did with Mariupol,
+Volnovakha, Popasna, and many dozens of villages and small towns
+in the North, East and South of Ukraine, like what they are doing
+with Bachmut. Our Opytne, a quiet suburb south of it is on the front line. All this time.
+As of June 2023, the town is completely ruined.
+And we are homeless internal refugees now and live near Kyiv in a rented appartment,
+being under an undefined status and future. And constant missile
+shelling by the same muscovite maniacs. Buying a new appartment
+is absolutely out of our reach. Renting is biting too, there is
+no way for me to buy even a tiny ARM SBC now.
+The only machines, I own for now (July 2023) and can
+test the project on are 2 working/home laptops &mdash; Iridium and Gallium (see
+<a href="doc/Targets.htm#target-names" class="navbar undecorated">here</a>
+on the nicknames), that we were able to take with us. We had a laptop
+bag, so it was easy to guess to put them there and take during the escape,
+I didn't take the SBCs even though it wouldn't take much space, because,
+we were full of the hope to be back home...
+All the lost machines are marked in the nickname list and machine table appropriately.
+Target architectures, has been minimized to x64 and arm64.
+Target park as for the July 2023 consists of the 2 mentioned laptops and the virtual machines, provided
+by the Qemu and Virtual Box emulators for the aforementioned architectures.
+</p>
+
+<p id="handheldconsoles">
+Before narrowing the target architectures set down, there also was period,
+where I considered mips SoCs, found in modern retrogaming consoles.
+At some point, it was discovered, that there were numerous hand held retrogaming consoles, produced
+with very similar mips processors, from the same vendor (Ingenic). Mostly these
+used single core jz4770 (Creator CI20 is jz4780) and there was also a newer and mysterious SoC &mdash; x1830,
+it ran at 1.5GHz and could be overclocked to 1.9GHz. Game Kiddy 350H used
+it. So, maybe, if there was possibility to get some of such consoles, it would make a nice
+addition to the park? However, given its
+specific use case and form factor, it could be a target for a rather special purpose port,
+which is, of course, interesting too, nevertheless!
+</p>
+
+<p>
+This retrogaming targets talk touches the topic, described
+<a href="doc/Goals.htm" class="undecorated">in the later section</a>,
+so here only briefly about it: ANT is being designed not just for serving
+a desktop role. Mobile role is in the list as well.
+The desktop role may be "the main" one, but definitely not the only one. Given how widespread
+mobile systems are for now, it would be rather unwise to not pay attention to this segment.
+Retrogaming devices are kind of yet a more specific subset of the mobile segment and are interesting
+of course, as well.
+But mips got abandoned by the owner, who bought it and we decided to narrow the
+architecture set, so these thoughts about mips handheld targets are historical now.
+However, mobile segment and even retrogame consoles (arm64 ones) are being considered.
+</p>
+
+<h4>Speaking of "if there was possibility"...</h4>
+<p>
+Since there is no usable project yet, asking about donation and expecting it to be satisfied,
+would be rather naive. Yet, I, being naive, have set a
+<a href="doc/Donate.htm" class="navbar undecorated">donation page</a> up.
+At least as a placeholder for the future willing to help the project.
+Visit it, please, for more detail on this, if you feel like it.
+And below is a "nice to have" list (irrelevant entries are marked), showing,
+what we longed for or still do:
+
+<ul>
+	<li>
+Rock 3C, Quartz64 or any rk3566, rk3568 or rk3588 board
+&mdash; especially desirable, because of many reasons: now, I don't have a single arm64 real machine,
+there is an edk2 port for the rk3566 SoC, what brings to us a compiant UEFI implementation
+(a reference one, in fact), with ACPI and non-moronic Boot Manager!
+	</li>
+	<li>
+Rock Pi 4B, RockPro64 or any rk3399 board
+&mdash; would add HMP, PCIe to the challenge set and overall, would be nice to have,
+as it is a solid mini PC and I have a more or less decent documentation for it!
+Which is rather rare. Since I wrote this point, I got Rock Pi 4B, Xenon, but then lost it,
+so now it's relevant as never before.
+	</li>
+	<li>
+Pinebook Pro &mdash; same as above, but in form of a fully loaded laptop!
+with an eDP display and a lot of fun of working with a customer ready product.
+I have been dreaming about affordable arm laptops hitting the market. This one is one of the pioneers.
+	</li>
+	<li>
+Some x86 PC, laptop, nettop or SBC, like Odroid-H2,
+Intel NUC, Latte Panda &mdash; for having a modern, UEFI
+based x64 machine, because I have none as a target machine and do testings on the working
+laptops.
+	</li>
+	<li>
+Pinephone &mdash; having the same SoC as Pine64+ (a64), this device brings
+a possibilty to work on a smartphone mobile role of the OS. Yet on the familiar SoC!
+	</li>
+	<li>
+Pinetab &mdash; same as above, but bringing a tablet PC testing bed.
+	</li>
+	<li>
+Game Kiddy 350H &mdash; strengthening the mips part of the park,
+rather interesting special purpose User Interface (UI) environment.
+<b><i>Became irrelevant because of mips discardance</i></b>.
+	</li>
+	<li>
+RG350(H,M) &mdash; the same as above.
+<b><i>Became irrelevant because of <b>mips</b> discardance</i></b>.
+	</li>
+	<li>
+A mips64 machine &mdash; something PC-like, not embedded level, something like Lemote
+computers, apparently for closing the gap of 64 bit mips unavailability.
+<b><i>Became irrelevant because of mips discardance</i></b>.
+	</li>
+</ul>
+</p>
+<hr class="hrintro" />
+
+<h3>Target Firmware Environment</h3>
+<h4>x86</h4>
+<p>
+Target firmware environment is primarily UEFI. Legacy BIOS is also considered,
+however it has gotten vastly irrelevant as for 2023.
+Supported bitness on x86 is 64 bits only, because x86 has moved
+into that land a long time ago. Agree, 32 bits don't look relevant on this architecture,
+all x86 processors, produced in the last 15 years are 64 bit. But the
+intention is to create ANT as much portable as possible, so, later, 32 bit x86 support
+could be added by those, willing it.
+</p>
+<h4>arm</h4>
+<p>
+Target firmware environment is primarily UEFI, be it EDK2 or uboot
+or any other <b><i>compliant</i></b> implementation.
+</p>
+<p>
+Firmwareless, plain uboot environment, without any functionality, exposed
+to the Loader, was discarded as a way into nowhere yet in the beginning of 2020.
+Although, there had been some work in an attempt of using it (torturizing yourself with
+those <b>go</b>, <b>bootm</b> and <b>booti</b> commands). The outcomes of that
+were &mdash; bare metal programming experience addition and realizing, that the plain uboot
+is just a Linux loader, not a firmware and that I need to switch to UEFI,
+on arm as well, support of which in uboot has gotten
+significantly improved at that moment.
+</p>
+<p>
+Initially, for arm, as you can see by then available SBCs,
+there had been a mix of 32 bit and 64 bit machines, that indicated
+the initial intention of supporting both bitnesses.
+But later, more and more it was getting clear, that 32 bit
+on arm is getting outdated just like with x86.
+Anyway, I kept supporting arm32 targets: had been compiling and
+testing the code on them, although, admittedly, this fact of it getting outdated
+was a bit of discomfort. Finally, after losing the initial target park,
+I discarded arm32 from the support list.
+</p>
+<h4>Others (historical)</h4>
+<p>
+For the mips machine, the "firmware" was plain uboot and
+for iMac &mdash; OpenFirmware. There was no 64 bit mips machine in the park as mentioned above.
+As of iMac, its processor was 64 bit, but the machine itself had only 512MB of RAM.
+Since on ppc (just like on mips), you have equally (many) general purpose registers
+in both bitnesses, using 64 bit mode, would only pressure CPU caches.
+The thought was: who knows, ppc is the least explored field,
+it's not a first target, we will see later.
+The "later" made these targets disappear in the ruins of war...
+</p>
+
+<h4>Brief retrospective</h4>
+<p>
+Initially, the first target architectures were arm and mips,
+but with the discovered later compiler issues (lack of PE support),
+x86 was added into the first line instead of mips.
+The most attention got arm64 first, followed by arm32
+and then x64. But then arm32 was obsoleted. The same applies to
+the kind of "popular" and "promising" riscv. I have been considering it
+a target, at least a future one, "why not", but.
+</p>
+<ol>
+	<li>
+There is no target machine in the park, other, than the very limited Qemu's <b>virt</b>
+	</li>
+	<li>
+There is no PE capable compiler. And even though, I've written a PeGen utility, able
+to translate an ELF image into a PE one, taking care of base relocation handling, this doesn't
+solve the issue of lacking __declspec(dllimport) support, with the latter, requiring
+changes in the code generation part of compiler to be added, a non-trivial challenge, definitely
+outside of our scope
+	</li>
+	<li>
+Finally, there is no enough manpower for a single person to take this one on board,
+<i>especially taking into account, that the architecture doesn't shine this much in reality
+as it does in the fanbase mouth, look for example at how miserable the available park is</i>
+	</li>
+</ol>
+<p>
+So, as for 2023, riscv isn't being considered a target. A possible subject
+to change, anyway, should it become really appealing, feasible and reachable to work on.
+</p>
+<hr class="hrintro" />
+<p>
+In the end of this section, let's introduce some naming conventions for avoiding
+repetitions of lengthy names and other confusions. So:
+</p>
+<ul>
+ <li>we call 32 bit x86 ia32</li>
+ <li>we call 64 bit x86 x64, common term is x86</li>
+ <li>we call 32 bit arm arm32 or, sometimes, aarch32</li>
+ <li>we call 64 bit arm arm64 or, sometimes, aarch64, common term is arm</li>
+ <li>we call 32 bit riscv rv32 or, sometimes, riscv32</li>
+ <li>we call 64 bit riscv rv64 or, sometimes, riscv64, common term is riscv</li>
+ <li>we call 32 bit mips mips32</li>
+ <li>we call 64 bit mips mips64, common term is mips</li>
+ <li>we call 32 bit ppc ppc32</li>
+ <li>we call 32 bit ppc ppc64, common term is ppc</li>
+</ul>
+<p>
+And yet, for the same space saving, here is the list of names for target machines,
+because, silly or not, writing everytime "Beagle Bone Black" or "that ASRock x64 motherboard"
+instead of Muran or Sirco is not a fun, so the names, we will always spell
+them stylized like in the previous examples and reference to this section, reasonably often
+through the documentation:
+</p>
+<ul id="target-names">
+ <li id="sirco">Sirco &mdash; ASRock x86 machine, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="muran">Muran &mdash; Beagle Bone Black, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="Ar">Argon &mdash; Cubieboard 2, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="Ne">Neon &mdash; Banana M2 Ultra, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="pine">Sosna (Pine) &mdash; Pine64+, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="imp">Imp (Ciortic) &mdash; CSA90 STB, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="Kr">Krypton &mdash; Rock64, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="Xe">Xenon &mdash; Rock Pi 4B, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="I">Iodine (Jod) &mdash; Creator CI20, <span class="lostmachine">lost in the ruined home</span></li>
+ <li id="blond">Blondin &mdash; iMac G5, <span class="lostmachine">lost in the ruined home</span></li>
+</ul>
+<p>
+The below, are not exactly target park machines, rather working or home machines, but sometimes being used
+(carefully) as targets:
+</p>
+<ul>
+ <li id="Ir">Iridium &mdash; HP Probook 4530s, home/working laptop, an x64 machine with UEFI</li>
+ <li id="Ga">Gallium &mdash; Xiaomi RedmiBook 16, home/working laptop, an x64 machine with UEFI</li>
+</ul>
+
+<hr class="hrintro" />
+<p>
+Let's summarize the information about the involved machines by a table, showing some hardware features of them.
+</p>
+<table>
+	<tr>
+		<th>Machine name</th>
+		<th>Chipset (SoC), Vendor</th>
+		<th>CPU implementation</th>
+		<th>arch. version, bits</th>
+		<th>num. of cores</th>
+		<th>max. freq. MHz</th>
+		<th>RAM</th>
+		<th>RAM size</th>
+		<th>GPU</th>
+		<th>Note</th>
+	</tr>
+	<tr>
+		<td>ASRock G41C-GS-R2.0</td>
+		<td>Core Duo 2 E8400, G41, ICH7, Intel</td>
+		<td>Wolfdale</td>
+		<td>x86, 64</td>
+		<td>2</td>
+		<td>3000</td>
+		<td>DDR2</td>
+		<td>2GB</td>
+		<td>Intel GMA X4500</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>Beagle Bone Black</td>
+		<td>Sitara AM3358, TI</td>
+		<td>Cortex-A8</td>
+		<td rowspan="3">armv7, 32</td>
+		<td>1</td>
+		<td>1000</td>
+		<td>DDR3L</td>
+		<td>512MB</td>
+		<td>PowerVR SGX530</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>Cubieboard 2</td>
+		<td>A20, Allwinner</td>
+		<td rowspan="2">Cortex-A7</td>
+		<td>2</td>
+		<td>1008</td>
+		<td>DDR3?</td>
+		<td>1GB</td>
+		<td rowspan="3">Mali400 MP2</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>Banana Pi M2 Ultra</td>
+		<td>R40, Allwinner</td>
+		<td>4</td>
+		<td>1200</td>
+		<td>DDR3?</td>
+		<td>2GB</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>Pine64+</td>
+		<td>A64, Allwinner</td>
+		<td rowspan="3">Cortex-A53</td>
+		<td rowspan="3">armv8, 64</td>
+		<td>4</td>
+		<td>1125</td>
+		<td>DDR3L</td>
+		<td>2GB</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>CSA 90</td>
+		<td>RK3368, Rockchip</td>
+		<td>(4 + 4)<sup>1</sup></td>
+		<td>1600? + 1400? </td>
+		<td>DDR3?</td>
+		<td>1GB</td>
+		<td>PowerVR G6110</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>Rock64</td>
+		<td>RK3328, Rockchip</td>
+		<td>4</td>
+		<td>1300</td>
+		<td>LPDDR3</td>
+		<td>4GB</td>
+		<td>Mali450 MP2</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td rowspan="2">Rock Pi 4B</td>
+		<td rowspan="2">RK3399, Rockchip</td>
+		<td>Cortex-A53</td>
+		<td rowspan="2">armv8, 64</td>
+		<td>4</td>
+		<td>1600?</td>
+		<td rowspan="2">LPDDR4?</td>
+		<td rowspan="2">4GB</td>
+		<td rowspan="2">Mali T860?</td>
+		<td rowspan="2" class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr><td>Cortex-A72</td><td>2</td><td>1800?</td></tr>
+	<tr>
+		<td><tt>mips</tt> Creator CI20</td>
+		<td>jz4780, Ingenic</td>
+		<td>XBurst</td>
+		<td>mips32r2, 32</td>
+		<td>2</td>
+		<td>1200</td>
+		<td>DDR3</td>
+		<td>1GB</td>
+		<td>PowerVR SGX540</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+	<tr>
+		<td>iMac G5</td>
+		<td>PowerPC 975FX, IBM</td>
+		<td>POWER4</td>
+		<td>POWER4, 64</td>
+		<td>1</td>
+		<td>1800</td>
+		<td>DDR</td>
+		<td>512MB</td>
+		<td>nVidia GeForce FX 5200 Ultra</td>
+		<td class="lostmachine">lost in the ruined home</td>
+	</tr>
+</table>
+<small><sup>1</sup>&nbsp;&mdash;&nbsp;big.LITTLE configuration with a dual cluster CPU, however, both
+clusters are "little" Cortex-A53 cores, the max frequencies and caches are different though.</small>
+<p>
+The below table lists "not so target machines", still used as such, due to some
+reasons, mostly it's our work and/or home machines.
+</p>
+<table>
+	<tr>
+		<th>Machine name</th>
+		<th>Chipset (SoC), Vendor</th>
+		<th>CPU implementation</th>
+		<th>arch. version, bits</th>
+		<th>num. of cores</th>
+		<th>max. freq. MHz</th>
+		<th>RAM</th>
+		<th>RAM size</th>
+		<th>GPU</th>
+		<th>Note</th>
+	</tr>
+	<tr>
+		<td>HP ProBook 4530s</td>
+		<td>Core i3 2330M, Intel</td>
+		<td>Sandy Bridge</td>
+		<td rowspan="2">x86, 64</td>
+		<td>2 (4<sup>1</sup>)</td>
+		<td>2200</td>
+		<td>DDR3</td>
+		<td>8GB</td>
+		<td>GMA, Radeon </td>
+		<td>Work/Home laptop</td>
+	</tr>
+	<tr>
+		<td id="GaT">Xiaomi RedmiBook 16</td>
+		<td>Ryzen 5 4500U, AMD</td>
+		<td>Ryzen 4th generation?</td>
+		<!--td><tt>x86</tt>, 64</td-->
+		<td>6</td>
+		<td>4???</td>
+		<td>DDR4?</td>
+		<td>16GB</td>
+		<td>AMD Vega</td>
+		<td>Work/Home laptop</td>
+	</tr>
+</table>
+<small><sup>1</sup>&nbsp;&mdash;&nbsp;Hyperthreading, meaning the CPU core supports several thread
+contexts, that is several threads could run on the core the same time (at least to some degree).</small>
+
+</div> <!-- class="padded-page-text -->
+</div><div class="uppchar"><a href="doc/Targets.htm#up" class="undecorated">☝</a></div>
+ </body>
+</html>
